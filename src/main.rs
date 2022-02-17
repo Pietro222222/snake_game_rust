@@ -45,6 +45,14 @@ fn main() {
                 Input::Character(c) => {
                     if c == 'q' || c == 'Q' {
                         break 'mainloop;
+                    } else if c == 'w' || c == 'W' {
+                        snake.direction = SnakeDirection::Up;
+                    } else if c == 'a' || c == 'A' {
+                        snake.direction = SnakeDirection::Left;
+                    } else if c == 's' || c == 'S' {
+                        snake.direction = SnakeDirection::Down;
+                    } else if c == 'd' || c == 'D' {
+                        snake.direction = SnakeDirection::Right;
                     }
                 }
                 _ => {}

@@ -1,16 +1,14 @@
-
 #[derive(Clone, Copy)]
 pub struct Coord {
-    pub height: u8,
-    pub width: u8
+    pub height: i8,
+    pub width: i8,
 }
 
 impl Coord {
-   pub fn new(h: u8, w: u8) -> Self {
-       Self {
-           height: h,
-           width: w
-       }
-   } 
+    pub fn new(h: i8, w: i8) -> Self {
+        Self {
+            height: h,
+            width: w,
+        }
+    }
 }
-

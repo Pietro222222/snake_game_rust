@@ -1,14 +1,14 @@
 use pancurses::{has_colors, init_pair, start_color, Window, COLOR_PAIR};
 
 pub struct Grid {
-    height: u8,
-    width: u8,
+    height: i8,
+    width: i8,
     grid: Vec<Vec<char>>,
     color: bool,
 }
 
 impl Grid {
-    pub fn new(h: u8, w: u8) -> Self {
+    pub fn new(h: i8, w: i8) -> Self {
         let grid: Vec<Vec<char>> = vec![vec!['#'; w as usize]; h as usize];
         let color = has_colors();
         if color {
@@ -41,7 +41,7 @@ impl Grid {
         }
     }
 
-    pub fn draw_in_pos(&mut self, y: u8, x: u8, c: char) {
+    pub fn draw_in_pos(&mut self, y: i8, x: i8, c: char) {
         let character = self
             .grid
             .get_mut(y as usize)

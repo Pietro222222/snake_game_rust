@@ -9,8 +9,8 @@ pub struct Apple {
 
 impl Apple {
     pub fn get_random_coord() -> Coord {
-        let h = rand::thread_rng().gen_range(0..GRID_HEIGHT) as u8;
-        let w = rand::thread_rng().gen_range(0..GRID_WIDTH) as u8;
+        let h = rand::thread_rng().gen_range(0..GRID_HEIGHT) as i8;
+        let w = rand::thread_rng().gen_range(0..GRID_WIDTH) as i8;
         Coord::new(h, w)
     }
     pub fn new(coord: Coord) -> Self {

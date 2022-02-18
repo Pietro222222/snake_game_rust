@@ -12,6 +12,32 @@ use grid::*;
 use pancurses::{endwin, napms, Input};
 use snake::*;
 
+fn get_apples(amount: u8) -> Vec<Apple> {
+    let mut vec: Vec<Apple> = vec![];
+    for i in 0..amount {
+        vec.push(Apple::new(Apple::get_random_coord()));
+    }
+    vec
+}
+
+fn draw_array_in_grid<T: GridDrawable>(arr: &Vec<T>, grid: &mut Grid) {
+    for i in arr {
+        i.draw_in_grid(grid);
+    }
+}
+
+fn did_snake_eat_any<'a>(
+    apples: &'a mut Vec<Apple>,
+    snake: &Snake,
+) -> (bool, Option<&'a mut Apple>) {
+    for i in apples {
+        if snake.snake_in_apple(i) {
+            return (true, Some(i));
+        }
+    }
+    (false, None)
+}
+
 fn main() {
     let mut window = init_game();
     window.keypad(true);
@@ -19,7 +45,7 @@ fn main() {
     let mut grid = Grid::new(GRID_HEIGHT, GRID_WIDTH);
     let mut snake = Snake::new();
     let mut timer_count = 0;
-    let mut apple = Apple::new(Apple::get_random_coord());
+    let mut apples = get_apples(40);
     snake.draw_in_grid(&mut grid);
 
     grid.draw(&mut window);
@@ -63,16 +89,23 @@ fn main() {
             if snake.is_game_over() {
                 break 'mainloop;
             }
-            if snake.snake_in_apple(&apple) {
-                snake.add_new_piece();
+            let res = did_snake_eat_any(&mut apples, &snake);
+            if res.0 == true {
+                let mut apple = res.1.unwrap();
                 apple.set_coord(Apple::get_random_coord());
+                snake.add_new_piece();
             }
+            // if snake.snake_in_apple(&apple) {
+            //     snake.add_new_piece();
+            //     apple.set_coord(Apple::get_random_coord());
+            // }
             timer_count = 0;
         } else {
             timer_count += 1;
         }
         grid.init();
-        apple.draw_in_grid(&mut grid);
+        //apple.draw_in_grid(&mut grid);
+        draw_array_in_grid(&apples, &mut grid);
         snake.draw_in_grid(&mut grid);
         grid.draw(&mut window);
         window.refresh();
